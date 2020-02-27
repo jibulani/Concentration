@@ -25,9 +25,10 @@ class ViewController: UIViewController {
     @IBOutlet private weak var flipCountLabel: UILabel!
     @IBOutlet private var cardButtons: [UIButton]!
     
-    private var emojiChoices = ["👻", "🎃", "😈", "🙀", "🤡", "👾", "👹", "🧟‍♂️"]
+//    private var emojiChoices = ["👻", "🎃", "😈", "🙀", "🤡", "👾", "👹", "🧟‍♂️"]
+    private var emojiChoices = "👻🎃😈🙀🤡👾👹🧟‍♂️"
     
-    private var emoji = [Int:String]() //Dictionary<Int, String>()
+    private var emoji = [Card:String]() //Dictionary<Int, String>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +37,8 @@ class ViewController: UIViewController {
     
     @IBAction private func restartGame(_ sender: Any) {
         flipCount = 0
-        emoji = [Int:String]()
-        emojiChoices = ["👻", "🎃", "😈", "🙀", "🤡", "👾", "👹", "🧟‍♂️"]
+        emoji = [Card:String]()
+        emojiChoices = "👻🎃😈🙀🤡👾👹🧟‍♂️" //["👻", "🎃", "😈", "🙀", "🤡", "👾", "👹", "🧟‍♂️"]
         for index in cardButtons.indices {
             let button = cardButtons[index]
             button.setTitle("", for: UIControl.State.normal)
@@ -73,10 +74,11 @@ class ViewController: UIViewController {
     }
     
     private func emoji(for card: Card) -> String {
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
+        if emoji[card] == nil, emojiChoices.count > 0 {
+            let randomIndex = emojiChoices.index(emojiChoices.startIndex, offsetBy: emojiChoices.count.arc4random)
+            emoji[card] = String(emojiChoices.remove(at: randomIndex))
         }
-        return emoji[card.identifier] ?? "?"
+        return emoji[card] ?? "?"
     }
 }
 
