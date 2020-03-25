@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ConcentraitionViewController: UIViewController {
     
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
@@ -37,6 +37,14 @@ class ViewController: UIViewController {
         }
     }
     @IBOutlet private var cardButtons: [UIButton]!
+    
+    var theme: String? {
+        didSet {
+            emojiChoices = theme ?? ""
+            emoji = [:]
+            updateViewFromModel()
+        }
+    }
     
 //    private var emojiChoices = ["👻", "🎃", "😈", "🙀", "🤡", "👾", "👹", "🧟‍♂️"]
     private var emojiChoices = "👻🎃😈🙀🤡👾👹🧟‍♂️"
@@ -73,15 +81,17 @@ class ViewController: UIViewController {
     }
     
     private func updateViewFromModel() {
-        for index in cardButtons.indices {
-            let button = cardButtons[index]
-            let card = game.cards[index]
-            if card.isFaceUp {
-                button.setTitle(emoji(for: card), for: UIControl.State.normal)
-                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            } else {
-                button.setTitle("", for: UIControl.State.normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.6117921472, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        if cardButtons != nil {
+            for index in cardButtons.indices {
+                let button = cardButtons[index]
+                let card = game.cards[index]
+                if card.isFaceUp {
+                    button.setTitle(emoji(for: card), for: UIControl.State.normal)
+                    button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                } else {
+                    button.setTitle("", for: UIControl.State.normal)
+                    button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.6117921472, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+                }
             }
         }
     }
